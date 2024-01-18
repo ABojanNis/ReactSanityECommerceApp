@@ -7,7 +7,7 @@ const Home = async () => {
   const {products, bannerData} = await getBannerData();
 
   return (
-    <>
+    <div>
       <HeroBanner heroBanner={bannerData.length && bannerData[0]} />
 
       <div className="products-heading">
@@ -15,12 +15,12 @@ const Home = async () => {
         <p>Speakers of many variations</p>
       </div>
 
-      <div className="product-container">
-        {products?.map((product) => product.name)}
+      <div className="products-container">
+        {products?.map((product) => <Product key={product._id} product={product} />)}
       </div>
 
       <FooterBanner />
-    </>
+    </div>
   );
 };
 
