@@ -1,8 +1,10 @@
 import React from "react";
+import { Toaster } from "react-hot-toast"
 
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { Footer, NavBar } from "@/components";
+import { StateContext } from "@/context/StateContext";
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -15,15 +17,18 @@ const RootLayout = ({ children }) => {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header>
-          <NavBar />
-        </header>
-        <main className="main-container">
-          {children}
-        </main>
-        <footer>
-          <Footer />
-        </footer>
+        <StateContext>
+          <Toaster />
+          <header>
+            <NavBar />
+          </header>
+          <main className="main-container">
+            {children}
+          </main>
+          <footer>
+            <Footer />
+          </footer>
+        </StateContext>
       </body>
     </html>
   )

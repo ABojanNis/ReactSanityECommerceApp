@@ -1,9 +1,9 @@
 import React from 'react';
-import { AiOutlineMinus, AiOutlinePlus, AiFillStar, AiOutlineStar } from "react-icons/ai";
+import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 
 import { client, urlFor } from "@/lib/client";
 import { notFound } from "next/navigation";
-import { Product, ProductImages } from "@/components";
+import { Product, ProductButtons, ProductImages, ProductQuantity } from "@/components";
 
 const ProductDetails = async ({ params: { slug } }) => {
   const currentProductQuery = `*[_type == "product" && slug.current == "${slug}"][0]`;
@@ -39,22 +39,8 @@ const ProductDetails = async ({ params: { slug } }) => {
           <h4>Details:</h4>
           <p>{details}</p>
           <p className="price">${price}</p>
-          <div className="quantity">
-            <h3>Quantity:</h3>
-            <p className="quantity-desc">
-                <span className="minus">
-                  <AiOutlineMinus/>
-                </span>
-                <span className="num">0</span>
-              <span className="plus">
-                  <AiOutlinePlus/>
-                </span>
-            </p>
-          </div>
-          <div className="buttons">
-            <button type="button" className="add-to-cart">Add to Cart</button>
-            <button type="button" className="buy-now">Buy Now</button>
-          </div>
+          <ProductQuantity />
+          <ProductButtons product={product} />
         </div>
       </div>
       <div className="maylike-products-wrapper">
