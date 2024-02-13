@@ -23,10 +23,16 @@ export const StateContext = ({ children }) => {
 
     if (checkProductInCart) {
       const updatedCartItems = cartItems.map((cartProduct) => {
-        if (cartProduct._id === product._id) return {
-          ...cartProduct,
-          quantity: cartProduct.quantity + quantity
-        };
+        if (cartProduct._id === product._id) {
+          return {
+            ...cartProduct,
+            quantity: cartProduct.quantity + quantity
+          };
+        } else {
+          return {
+            ...cartProduct
+          }
+        }
       });
 
       setCartItems(updatedCartItems);
@@ -50,14 +56,16 @@ export const StateContext = ({ children }) => {
   const toggleCartItemQuantity = (id, value) => {
     foundProduct = cartItems.find((item) => item._id === id);
     index = cartItems.findIndex((product) => product._id === id);
-    const newCartItems = cartItems.filter((item) => item._id !== id);
+    const newCartItems = [ ...cartItems ];
 
     if (value === 'inc') {
-      setCartItems([ ...newCartItems, { ...foundProduct, quantity: foundProduct.quantity + 1 } ]);
+      newCartItems[index] = { ...foundProduct, quantity: foundProduct.quantity + 1 };
+      setCartItems(newCartItems);
       setTotalPrice((prevTotalPrice) => prevTotalPrice + foundProduct.price);
       setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + 1);
     } else if (value === 'dec' && foundProduct.quantity > 1) {
-      setCartItems([ ...newCartItems, { ...foundProduct, quantity: foundProduct.quantity - 1 } ]);
+      newCartItems[index] = { ...foundProduct, quantity: foundProduct.quantity - 1 };
+      setCartItems(newCartItems);
       setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProduct.price);
       setTotalQuantities((prevTotalQuantities) => prevTotalQuantities - 1);
     }
@@ -83,11 +91,15 @@ export const StateContext = ({ children }) => {
         totalPrice,
         totalQuantities,
         qty,
+        setQty,
         incQty,
         decQty,
         onAdd,
         toggleCartItemQuantity,
-        onRemove
+        onRemove,
+        setCartItems,
+        setTotalPrice,
+        setTotalQuantities,
       } }
     >
       { children }
